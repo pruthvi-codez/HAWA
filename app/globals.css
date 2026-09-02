@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bone text-ink font-body antialiased;
+}
+
+::selection {
+  @apply bg-indigo text-bone;
+}
+
+:focus-visible {
+  outline: 2px solid #2E3A59;
+  outline-offset: 2px;
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-widest2 text-ink/60;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-none px-6 py-3 text-sm font-semibold uppercase tracking-wide transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-ink text-bone hover:bg-indigo;
+  }
+
+  .btn-secondary {
+    @apply btn bg-transparent text-ink border border-ink hover:bg-ink hover:text-bone;
+  }
+
+  .btn-outline-light {
+    @apply btn bg-transparent text-bone border border-bone hover:bg-bone hover:text-ink;
+  }
+
+  .input {
+    @apply w-full border border-sandline bg-bone px-4 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:border-indigo focus:outline-none;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink/70;
+  }
+
+  .card {
+    @apply border border-sandline bg-bone;
+  }
+
+  .stitch-divider {
+    @apply h-px w-full text-sandline bg-stitch bg-[length:12px_1px];
+  }
+
+  .container-page {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .tag-hole {
+    @apply inline-block h-2 w-2 rounded-full border border-current;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

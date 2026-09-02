@@ -1,0 +1,28 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { getUserByResetToken, updateUserPassword, setResetToken } from '@/lib/models/users';
+import { hashPassword } from '@/lib/password';
+
+const schema = z.object({
+  token: z.string().min(1),
+  password: z.string().min(8, 'Password must be at least 8 characters.'),
+});
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const parsed = schema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
+  }
+
+  const user = getUserByResetToken(parsed.data.token);
+  if (!user) {
+    return NextResponse.json({ error: 'This reset link is invalid or has expired.' }, { status: 400 });
+  }
+
+  const passwordHash = await hashPassword(parsed.data.password);
+  updateUserPassword(user.id, passwordHash);
+  setResetToken(user.id, null, null);
+
+  return NextResponse.json({ ok: true });
+}
